@@ -5,6 +5,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from preprocess import load_and_clean_data
+from sklearn.metrics import classification_report
+
 
 def train_and_save_model():
     os.makedirs("models", exist_ok=True)
@@ -30,6 +32,7 @@ def train_and_save_model():
     print("Model Accuracy on Test Set:", accuracy_score(y_test, preds))
 
     joblib.dump(model, "models/model.pkl")
+    print(classification_report(y_test, preds))
 
 if __name__ == "__main__":
     train_and_save_model()
