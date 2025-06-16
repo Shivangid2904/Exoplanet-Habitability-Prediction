@@ -1,13 +1,15 @@
 import streamlit as st
 import joblib
 from predict import predict
-from explain import explain_prediction
+from explain import explain_prediction, export_html_explanation
+from preprocess import load_and_clean_data  # Needed for global SHAP
 
 # Load the model once at startup
 model = joblib.load("models/model.pkl")
 
-st.title("Exoplanet Habitability Predictor")
+st.title("🪐 Exoplanet Habitability Predictor")
 
+# Input section
 inputs = {
     "pl_rade": st.number_input("Planet Radius (Earth radii)", 0.0, 10.0, 1.0),
     "pl_bmasse": st.number_input("Planet Mass (Earth masses)", 0.0, 1000.0, 1.0),
@@ -22,9 +24,15 @@ inputs = {
     "sy_dist": st.number_input("Distance (parsecs)", 0.0, 10000.0, 10.0)
 }
 
-if st.button("Predict Habitability"):
+if st.button("🔮 Predict Habitability"):
     result = predict(inputs)
-    st.write("### Prediction:", "Habitable 🌍" if result == 1 else "Not Habitable ❌")
+    st.write("### 🧾 Prediction:", "✅ **Habitable 🌍**" if result == 1 else "❌ **Not Habitable**")
 
-    st.write("### Explanation:")
+    st.write("### 🧠 Explanation")
     explain_prediction(inputs, model)
+
+    # Add Downloadable HTML Explanation
+    html_path = export_html_explanation(inputs, model)
+    with open(html_path, 'rb') as f:
+        st.download_button("📄 Download SHAP Explanation (HTML)", f, file_name="shap_explanation.html")
+
