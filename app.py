@@ -36,3 +36,16 @@ if st.button("🔮 Predict Habitability"):
     with open(html_path, 'rb') as f:
         st.download_button("📄 Download SHAP Explanation (HTML)", f, file_name="shap_explanation.html")
 
+# --- Footer ---
+st.markdown("---")
+st.markdown(
+    """
+    <div style='text-align: center; font-size: 0.9em; color: gray;'>
+        🚀 Made with ❤️ by <a href="https://www.linkedin.com/in/shivangi-dubey-1783511a6/" target="_blank">Shivangi Dubey</a> • 
+        <a href="https://github.com/Shivangid2904/Exoplanet-Habitability-Prediction" target="_blank">🔗 GitHub Repo</a> • 
+        <a href="https://exoplanetarchive.ipac.caltech.edu/" target="_blank">🌌 NASA Exoplanet Archive</a> • 
+        <a href="https://choosealicense.com/licenses/mit/" target="_blank">📜 MIT License</a>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
