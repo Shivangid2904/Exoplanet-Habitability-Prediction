@@ -27,6 +27,8 @@ inputs = {
 if st.button("🔮 Predict Habitability"):
     result = predict(inputs)
     st.write("### 🧾 Prediction:", "✅ **Habitable 🌍**" if result == 1 else "❌ **Not Habitable**")
+    proba = model.predict_proba(pd.DataFrame([inputs]))[0][1]
+    st.write(f"🌡️ Habitability Probability: {proba:.2%}")
 
     st.write("### 🧠 Explanation")
     explain_prediction(inputs, model)
