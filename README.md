@@ -48,3 +48,7 @@ Stellar Flux (pl_insol)
 🔗 Demo
 🌐 Live App: https://exoplanet-habitability-prediction.streamlit.app/
 📁 GitHub Repository: This repo
+
+📜 License
+This project is licensed under the MIT License. You’re free to use, modify, and distribute it with proper credit.
+
