@@ -11,7 +11,7 @@ def load_and_clean_data(filepath):
 
     df['is_habitable'] = (
         (df['pl_rade'] >= 0.5) & (df['pl_rade'] <= 2.5) &
-        (df['pl_eqt'] >= 180) & (df['pl_eqt'] <= 310) &
+        (df['pl_eqt'] >= 160) & (df['pl_eqt'] <= 330) &
         (df['pl_insol'] >= 0.3) & (df['pl_insol'] <= 1.8)
     ).astype(int)
 
