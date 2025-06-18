@@ -7,21 +7,21 @@ import numpy as np
 import os
 
 # --- Enhanced SHAP Explanation Function ---
-def explain_prediction(input_data, model):
+def explain_prediction(input_data, pipeline):
     if not isinstance(input_data, pd.DataFrame):
         input_df = pd.DataFrame([input_data])
     else:
         input_df = input_data
+
+    # Extract classifier from pipeline
+    model = pipeline.named_steps['clf']
 
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
     predicted_class = model.predict(input_df)[0]
 
     if isinstance(shap_values, list):
-        if isinstance(shap_values[predicted_class], np.ndarray) and shap_values[predicted_class].ndim == 2:
-            shap_for_pred_class = shap_values[predicted_class][0]
-        else:
-            shap_for_pred_class = shap_values[predicted_class]
+        shap_for_pred_class = shap_values[predicted_class][0]
         base_value = explainer.expected_value[predicted_class]
     elif isinstance(shap_values, np.ndarray):
         if shap_values.ndim == 3:
@@ -62,18 +62,21 @@ def explain_prediction(input_data, model):
     st.write("#### 🔍 Feature Contributions")
     st.dataframe(df_expl.drop(columns=["|Impact|"]))
 
+
 # --- Save HTML Explanation ---
-def export_html_explanation(input_data, model, filename="shap_explanation.html"):
+def export_html_explanation(input_data, pipeline, filename="shap_explanation.html"):
     if not isinstance(input_data, pd.DataFrame):
         input_df = pd.DataFrame([input_data])
     else:
         input_df = input_data
 
+    # Extract classifier from pipeline
+    model = pipeline.named_steps['clf']
+
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
     predicted_class = model.predict(input_df)[0]
 
-    # Handle SHAP values format like in explain_prediction
     if isinstance(shap_values, list):
         shap_for_pred_class = shap_values[predicted_class][0]
         base_value = explainer.expected_value[predicted_class]
@@ -111,4 +114,3 @@ def export_html_explanation(input_data, model, filename="shap_explanation.html")
 
     plt.close(fig)
     return filename
-
